@@ -25,6 +25,8 @@ def index(request):
     return HttpResponse("Hello World! Welcome to the Polls App")
 def get_questions(request):
     return HttpResponse(Question.objects.all())
+def return_hello_world(request):
+    return HttpResponse("HelloWorld")
 def detail(request,question_id):
     try:
         question = Question.objects.get(pk=question_id)
