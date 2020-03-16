@@ -6,6 +6,7 @@ Django==3.0.4
 djangorestframework==3.11.0
 importlib-metadata==1.5.0
 more-itertools==8.2.0
+mysqlclient==1.4.6
 packaging==20.3
 pluggy==0.13.1
 py==1.8.1
