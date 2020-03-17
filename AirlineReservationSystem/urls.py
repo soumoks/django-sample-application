@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
-from django.contrib.staticfiles import views
-from django.urls import re_path
+# from django.contrib.staticfiles import views
+# from django.urls import re_path
 #Build
 urlpatterns = [
     path('polls/',include('polls.urls')),
     path('admin/', admin.site.urls),
     #hardcode serve static files to true
     #https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#django.contrib.staticfiles.views.serve
-    re_path(r'^static/(?P<path>.*)$', views.serve),
+    # re_path(r'^static/(?P<path>.*)$', views.serve),
 ]
