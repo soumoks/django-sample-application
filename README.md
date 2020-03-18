@@ -1,4 +1,6 @@
 ### django-sample-application                                          [![Build Status](https://travis-ci.org/soumoks/django-sample-application.svg?branch=master)](https://travis-ci.org/soumoks/django-sample-application)
+
+![alt text](https://i.imgur.com/AiveVw6.png)
 * Clone the repository
 
 ```
@@ -21,15 +23,12 @@ eb init -p python-3.6 django-tutorial
 eb init
 eb create django-env
 ```
-
-* Add a database to your EB environment
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.managing.db.html
+* [Add a database to your EB environment](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.managing.db.html)
 
 * Deploy the application
 ```
 eb deploy
 ```
 
-Instructions to setup a CI/CD pipeline using Travis CI are present here:
+[Deploy Application with Travis CI](https://medium.com/@soumoks/creating-a-django-ci-cd-pipeline-with-travis-ci-and-aws-elasticbeanstalk-b91bfedd144c)
 
-https://medium.com/@soumoks/creating-a-django-ci-cd-pipeline-with-travis-ci-and-aws-elasticbeanstalk-b91bfedd144c
