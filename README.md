@@ -30,5 +30,5 @@ eb create django-env
 eb deploy
 ```
 
-[Deploy Application with Travis CI](https://medium.com/@soumoks/creating-a-django-ci-cd-pipeline-with-travis-ci-and-aws-elasticbeanstalk-b91bfedd144c)
+* Instructions to setup a CI/CD pipeline with Travis CI are present [here](https://medium.com/@soumoks/creating-a-django-ci-cd-pipeline-with-travis-ci-and-aws-elasticbeanstalk-b91bfedd144c)
 
