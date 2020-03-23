@@ -18,4 +18,4 @@ deploy:
   on:
     branch: master
 after_deploy:
-  - ./after_deploy.sh
+  - sudo bash after_deploy.sh
