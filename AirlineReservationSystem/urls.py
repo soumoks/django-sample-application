@@ -21,6 +21,7 @@ from django.urls import include,path
 urlpatterns = [
     path('polls/',include('polls.urls')),
     path('admin/', admin.site.urls),
+    path('airline/',include('airlineapp.urls')),
     #hardcode serve static files to true
     #https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#django.contrib.staticfiles.views.serve
     # re_path(r'^static/(?P<path>.*)$', views.serve),

@@ -27,12 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['django-env.eba-wgpvstzd.us-east-1.elasticbeanstalk.com','127.0.0.1']
 
-
+#Add default timezone for Database
+TIME_ZONE = 'UTC'
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
     'polls.apps.PollsConfig',
+    'airlineapp.apps.AirlineappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,8 +99,14 @@ WSGI_APPLICATION = 'AirlineReservationSystem.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-import os
 
+#Add checks if required to run a bat file on Windows to set environment variables
+#before each run.
+
+# if os.name == 'nt':
+
+# elif os.name == 'posix':
+#     #Linux System
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
@@ -150,3 +158,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG'
+        }
+    }
+}
