@@ -29,6 +29,21 @@ eb create django-env
 ```
 eb deploy
 ```
+* Add the relevant environment variables to your environment. These variables are requried to establish a connection with the database
+```
+import os
+os.environ['RDS_DB_NAME'] = ""
+os.environ['RDS_USERNAME'] = ""
+os.environ['RDS_PASSWORD'] = ""
+os.environ['RDS_HOSTNAME'] = ""
+os.environ['RDS_PORT'] = ""
+```
+These variables depend on the database used. The above variables are required for AWS RDS
+
+* Run the application
+```
+python manage.py runserver
+```
 
 * Instructions to setup a CI/CD pipeline with Travis CI are present [here](https://medium.com/@soumoks/creating-a-django-ci-cd-pipeline-with-travis-ci-and-aws-elasticbeanstalk-b91bfedd144c)
 
