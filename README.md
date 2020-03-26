@@ -14,7 +14,9 @@ python -m venv <name_of_virtualenv>
 
 * Activate the virtualenv
 (Windows only)
+```
 <name_of_virtualenv>\Scripts\activate.bat
+```
 
 * Install the dependencies
 ```
