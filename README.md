@@ -12,6 +12,10 @@ git clone https://github.com/soumoks/django-sample-application.git
 python -m venv <name_of_virtualenv>
 ```
 
+* Activate the virtualenv
+(Windows only)
+<name_of_virtualenv>\Scripts\activate.bat
+
 * Install the dependencies
 ```
 pip install -r requirements.txt
@@ -29,7 +33,7 @@ eb create django-env
 ```
 eb deploy
 ```
-* Add the relevant environment variables to your environment. These variables are requried to establish a connection with the database
+* Add the relevant environment variables to your environment. These variables are required to establish a connection with the database
 ```
 import os
 os.environ['RDS_DB_NAME'] = ""
