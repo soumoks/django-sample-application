@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 """
 Some things to note about how Django creates primary key and foreign keys.
@@ -81,13 +82,19 @@ class Food_Name(models.Model):
         return self.food_name
         
 class Passenger(models.Model):
+
+    SEX_TYPE = [
+        (1, 'M'),
+        (2, 'F')
+    ]
+
     """
     Passenger information
     """
     fname = models.CharField(max_length=30)
     lname = models.CharField(max_length=30)
-    age = models.IntegerField()
-    sex = models.CharField(max_length=10)
+    age = models.IntegerField(validators=[MinValueValidator(0, 'Please enter correct value'), MaxValueValidator(100, 'Please enter correct value')])
+    sex = models.CharField(max_length=1, choices = SEX_TYPE)
     seat_number = models.CharField(max_length=4)
     food_name = models.ForeignKey(Food_Name,on_delete=models.CASCADE)
 
@@ -109,5 +116,3 @@ class Feature(models.Model):
 
 class Feature_Name(models.Model):
     pass
-
-

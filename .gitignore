@@ -1,5 +1,6 @@
 .vscode/*
 airlinevenv/*
+.airlinevenv/*
 *.pyo
 *.pyc
 # Elastic Beanstalk Files
