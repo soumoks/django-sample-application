@@ -84,8 +84,8 @@ class Food_Name(models.Model):
 class Passenger(models.Model):
 
     SEX_TYPE = [
-        (1, 'M'),
-        (2, 'F')
+        ('M', 'M'),
+        ('F', 'F')
     ]
 
     """
