@@ -38,11 +38,16 @@ We can try returning the id in each to string method by returning
 self.id
 """
 # Create your models here.
-class Trip(models.Model):
-    pass
+class Route(models.Model):
+    """
+    Contains the available routes. 
+    For example : Calgary to Vancouver
+    """
+    departure_city = models.CharField(max_length=30)
+    arrival_city = models.CharField(max_length=30)
 
-class Booking(models.Model):
-    pass
+    def __str__(self):
+        return f"Departure: {self.departure_city} | Arrival: {self.arrival_city}"
 
 class Plane(models.Model):
     """
@@ -57,19 +62,26 @@ class Plane(models.Model):
     def __str__(self):
         return f"plane with ID:{self.id} has max_row: {self.max_row} and max_col: {self.max_col}"
 
+
+class Trip(models.Model):
+    date = models.DateField()
+    arrival_time = models.TimeField()
+    departure_time = models.TimeField()
+    route_id = models.ForeignKey(Route,on_delete=models.CASCADE)
+    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE)
+
+    def __str__(self):
+        my_str = f"Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
+        return my_str
+
+class Booking(models.Model):
+    pass
+
+
 class Booking_Type(models.Model):
     pass
 
-class Route(models.Model):
-    """
-    Contains the available routes. 
-    For example : Calgary to Vancouver
-    """
-    departure_city = models.CharField(max_length=30)
-    arrival_city = models.CharField(max_length=30)
 
-    def __str__(self):
-        return f"Departure: {self.departure_city} | Arrival: {self.arrival_city}"
 
 class Food_Name(models.Model):
     """
