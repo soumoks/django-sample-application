@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sys
 try:
     #Try to import the file
     from credentials import get_creds
@@ -136,6 +137,11 @@ elif os.name == 'nt':
             'PORT': get_creds("PORT"),
         }
     }
+else:
+    #Default option
+    #Exit
+    print("Credentials not found. Not able to connect to DB.Exiting..")
+    sys.exit(0)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
