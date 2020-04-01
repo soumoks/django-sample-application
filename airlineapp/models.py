@@ -49,10 +49,10 @@ class Plane(models.Model):
     Contains information about each plane
     """
     company = models.CharField(max_length=100)
-    model_no = models.IntegerField()
-    capacity = models.IntegerField()
-    max_row = models.IntegerField()
-    max_col = models.IntegerField()
+    model_no = models.PositiveIntegerField()
+    capacity = models.PositiveIntegerField()
+    max_row = models.PositiveIntegerField()
+    max_col = models.PositiveIntegerField()
 
     def __str__(self):
         return f"plane with ID:{self.id} has max_row: {self.max_row} and max_col: {self.max_col}"
@@ -125,5 +125,5 @@ class Feature_Name(models.Model):
     feature_id = models.ForeignKey(Feature,on_delete=models.CASCADE)
 
     def __str__(self):
-        my_str = f"Plane with ID:{self.plane_id} has feature ID:{self.feature_id}";
+        my_str = f"Plane ID:{self.plane_id} has feature ID:{self.feature_id}";
         return my_str
