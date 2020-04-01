@@ -74,14 +74,6 @@ class Trip(models.Model):
         my_str = f"Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
         return my_str
 
-class Booking(models.Model):
-    pass
-
-
-class Booking_Type(models.Model):
-    pass
-
-
 
 class Food_Name(models.Model):
     """
@@ -114,6 +106,25 @@ class Passenger(models.Model):
         """return individual passenger information
         """
         return f"Name: {self.fname} {self.lname}, Seat: {self.seat_number}, Food Pref: {self.food_name}"
+
+
+
+class Booking(models.Model):
+    BOOKING_TYPE = [
+        ("One-Way","One-Way"),
+        ("Round-Trip","Round-Trip")
+    ]
+    book_type = models.CharField(max_length=10,choices=BOOKING_TYPE)
+    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE)
+    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
+
+
+
+class Booking_Type(models.Model):
+    pass
+
+
+
 
 
 
