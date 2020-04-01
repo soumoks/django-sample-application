@@ -3,6 +3,7 @@ airlinevenv/*
 .airlinevenv/*
 *.pyo
 *.pyc
+credentials.py
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

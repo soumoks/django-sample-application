@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+try:
+    #Try to import the file
+    from credentials import get_creds
+except:
+    #Fail gracefully and show a human-friendly error message
+    print("Credentials file not found. Add a credentials file for the database of your choice")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -103,11 +109,11 @@ WSGI_APPLICATION = 'AirlineReservationSystem.wsgi.application'
 #Add checks if required to run a bat file on Windows to set environment variables
 #before each run.
 
-# if os.name == 'nt':
 
-# elif os.name == 'posix':
-#     #Linux System
-if 'RDS_HOSTNAME' in os.environ:
+# if 'RDS_HOSTNAME' in os.environ:
+
+## Added a check for Linux system and added a get_creds function for Windows
+if os.name == 'posix':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -118,7 +124,18 @@ if 'RDS_HOSTNAME' in os.environ:
             'PORT': os.environ['RDS_PORT'],
         }
     }
-
+#Check for local windows dev system
+elif os.name == 'nt':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': get_creds("NAME"),
+            'USER': get_creds("USER"),
+            'PASSWORD': get_creds("PASSWORD"),
+            'HOST': get_creds("HOST"),
+            'PORT': get_creds("PORT"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
