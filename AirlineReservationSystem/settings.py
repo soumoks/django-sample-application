@@ -140,7 +140,7 @@ elif os.name == 'nt':
 else:
     #Default option
     #Exit
-    print("Credentials not found. Not able to connect to DB.Exiting..")
+    print("Credentials not found. Unable to connect to DB.Exiting..")
     sys.exit(0)
 
 # Password validation

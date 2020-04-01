@@ -115,4 +115,15 @@ class Feature(models.Model):
         return self.feature_desc
 
 class Feature_Name(models.Model):
-    pass
+    """
+    This table is required to tie together the Plane with the different features.
+    This table was created to avoid multivalues in Plane.
+    Each plane can have multiple features part of the "Feature" Table
+    This table will contain two foreign keys i.e planeID and feature_ID
+    """
+    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE)
+    feature_id = models.ForeignKey(Feature,on_delete=models.CASCADE)
+
+    def __str__(self):
+        my_str = f"Plane with ID:{self.plane_id} has feature ID:{self.feature_id}";
+        return my_str
