@@ -118,13 +118,19 @@ class Booking(models.Model):
     trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE)
     passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
 
+    def __str__(self):
+        my_str = f"Passenger with ID: {self.passenger_id} has Trip ID: {self.trip_id} and Type is {self.book_type}"
+        return my_str
 
 
 class Booking_Type(models.Model):
-    pass
+    booking_id = models.ForeignKey(Booking,on_delete=models.CASCADE)
+    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE)
+    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
 
-
-
+    def __str__(self):
+        my_str = f"Booking ID: {self.booking_id}, Trip ID: {self.trip_id}, Passenger ID: {self.passenger_id}"
+        return my_str
 
 
 
