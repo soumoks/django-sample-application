@@ -43,8 +43,8 @@ class Route(models.Model):
     Contains the available routes. 
     For example : Calgary to Vancouver
     """
-    departure_city = models.CharField(max_length=30)
-    arrival_city = models.CharField(max_length=30)
+    departure_city = models.CharField(max_length=30,default=None)
+    arrival_city = models.CharField(max_length=30,default=None)
 
     def __str__(self):
         return f"Departure: {self.departure_city} | Arrival: {self.arrival_city}"
@@ -53,22 +53,22 @@ class Plane(models.Model):
     """
     Contains information about each plane
     """
-    company = models.CharField(max_length=100)
-    model_no = models.PositiveIntegerField()
-    capacity = models.PositiveIntegerField()
-    max_row = models.PositiveIntegerField()
-    max_col = models.PositiveIntegerField()
+    company = models.CharField(max_length=100,default=None)
+    model_no = models.PositiveIntegerField(default=None)
+    capacity = models.PositiveIntegerField(default=None)
+    max_row = models.PositiveIntegerField(default=None)
+    max_col = models.PositiveIntegerField(default=None)
 
     def __str__(self):
         return f"plane with ID:{self.id} has max_row: {self.max_row} and max_col: {self.max_col}"
 
 
 class Trip(models.Model):
-    date = models.DateField()
-    arrival_time = models.TimeField()
-    departure_time = models.TimeField()
-    route_id = models.ForeignKey(Route,on_delete=models.CASCADE)
-    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE)
+    date = models.DateField(default=None)
+    arrival_time = models.TimeField(default=None)
+    departure_time = models.TimeField(default=None)
+    route_id = models.ForeignKey(Route,on_delete=models.CASCADE,default=None)
+    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
         my_str = f"Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
@@ -95,12 +95,12 @@ class Passenger(models.Model):
     """
     Passenger information
     """
-    fname = models.CharField(max_length=30)
-    lname = models.CharField(max_length=30)
-    age = models.IntegerField(validators=[MinValueValidator(0, 'Please enter correct value'), MaxValueValidator(100, 'Please enter correct value')])
-    sex = models.CharField(max_length=1, choices = SEX_TYPE)
-    seat_number = models.CharField(max_length=4)
-    food_name = models.ForeignKey(Food_Name,on_delete=models.CASCADE)
+    fname = models.CharField(max_length=30,default=None)
+    lname = models.CharField(max_length=30,default=None)
+    age = models.IntegerField(validators=[MinValueValidator(0, 'Please enter correct value'), MaxValueValidator(100, 'Please enter correct value')],default=None)
+    sex = models.CharField(max_length=1, choices = SEX_TYPE,default='M')
+    seat_number = models.CharField(max_length=4,default=None)
+    food_name = models.ForeignKey(Food_Name,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
         """return individual passenger information
@@ -114,9 +114,9 @@ class Booking(models.Model):
         ("One-Way","One-Way"),
         ("Round-Trip","Round-Trip")
     ]
-    book_type = models.CharField(max_length=10,choices=BOOKING_TYPE)
-    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE)
-    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
+    book_type = models.CharField(max_length=10,choices=BOOKING_TYPE,default="One-Way")
+    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE,default=None)
+    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
         my_str = f"Passenger with ID: {self.passenger_id} has Trip ID: {self.trip_id} and Type is {self.book_type}"
@@ -124,9 +124,9 @@ class Booking(models.Model):
 
 
 class Booking_Type(models.Model):
-    booking_id = models.ForeignKey(Booking,on_delete=models.CASCADE)
-    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE)
-    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking,on_delete=models.CASCADE,default=None)
+    trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE,default=None)
+    passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
         my_str = f"Booking ID: {self.booking_id}, Trip ID: {self.trip_id}, Passenger ID: {self.passenger_id}"
@@ -138,7 +138,7 @@ class Feature(models.Model):
     """
     Contains the description of each feature
     """
-    feature_desc = models.CharField(max_length=200)
+    feature_desc = models.CharField(max_length=200,default=None)
 
     def __str__(self):
         return self.feature_desc
@@ -150,8 +150,8 @@ class Feature_Name(models.Model):
     Each plane can have multiple features part of the "Feature" Table
     This table will contain two foreign keys i.e planeID and feature_ID
     """
-    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE)
-    feature_id = models.ForeignKey(Feature,on_delete=models.CASCADE)
+    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE,default=None)
+    feature_id = models.ForeignKey(Feature,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
         my_str = f"Plane ID:{self.plane_id} has feature ID:{self.feature_id}";
