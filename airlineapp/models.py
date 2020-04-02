@@ -60,7 +60,7 @@ class Plane(models.Model):
     max_col = models.PositiveIntegerField(default=None)
 
     def __str__(self):
-        return f"plane with ID:{self.id} has max_row: {self.max_row} and max_col: {self.max_col}"
+        return f"Plane ID: {self.id} is {self.company} {self.model_no}"
 
 
 class Trip(models.Model):
@@ -123,6 +123,7 @@ class Booking(models.Model):
         return my_str
 
 
+#TODO: Need to check the requirement for this table
 class Booking_Type(models.Model):
     booking_id = models.ForeignKey(Booking,on_delete=models.CASCADE,default=None)
     trip_id = models.ForeignKey(Trip,on_delete=models.CASCADE,default=None)
