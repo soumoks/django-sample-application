@@ -6,7 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'gettrips',views.TripViewSet)
 router.register(r'getfood',views.FoodViewSet)
 router.register(r'getroutes',views.RouterViewSet)
-
+router.register(r'getpassengers',views.PassengerViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),

@@ -67,8 +67,8 @@ class Trip(models.Model):
     date = models.DateField(default=None)
     arrival_time = models.TimeField(default=None)
     departure_time = models.TimeField(default=None)
-    route_id = models.ForeignKey(Route,on_delete=models.CASCADE,default=None)
-    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE,default=None)
+    route_id = models.ForeignKey(Route,on_delete=models.CASCADE,default=None,related_name='routes')
+    plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE,default=None,related_name='planes')
 
     def __str__(self):
         my_str = f"Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
@@ -100,7 +100,7 @@ class Passenger(models.Model):
     age = models.IntegerField(validators=[MinValueValidator(0, 'Please enter correct value'), MaxValueValidator(100, 'Please enter correct value')],default=None)
     sex = models.CharField(max_length=1, choices = SEX_TYPE,default='M')
     seat_number = models.CharField(max_length=4,default=None)
-    food_name = models.ForeignKey(Food_Name,on_delete=models.CASCADE,default=None)
+    food_name = models.ForeignKey(Food_Name,on_delete=models.CASCADE,default=None,related_name='food')
 
     def __str__(self):
         """return individual passenger information

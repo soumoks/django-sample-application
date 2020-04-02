@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Trip,Food_Name,Route
+from .models import Trip,Food_Name,Route,Passenger
 from rest_framework import viewsets
 from rest_framework import permissions
-from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer
+from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -30,5 +30,12 @@ class RouterViewSet(viewsets.ModelViewSet):
     """
     queryset = Route.objects.all()
     serializer_class = RouterSerializer
+
+class PassengerViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for passengers
+    """
+    queryset = Passenger.objects.all()
+    serializer_class = PassengerSerializer
 
 
