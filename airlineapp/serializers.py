@@ -22,4 +22,4 @@ class FoodNameSerializer(serializers.HyperlinkedModelSerializer):
 class RouterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Route
-        fields = ['departure_city','arrival_city']
+        fields = '__all__'
