@@ -80,6 +80,8 @@ MIDDLEWARE = [
 ]
 
 #django cors configuration
+#Reference:
+#https://github.com/adamchainz/django-cors-headers
 #Allows all hosts.
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET','POST']

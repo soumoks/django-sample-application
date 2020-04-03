@@ -38,6 +38,8 @@ We can try returning the id in each to string method by returning
 self.id
 """
 # Create your models here.
+#Foreign key usage reference:
+#https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_one/
 class Route(models.Model):
     """
     Contains the available routes. 

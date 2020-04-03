@@ -1,6 +1,6 @@
 from . import models
 from rest_framework import serializers
-
+#https://www.django-rest-framework.org/api-guide/relations/
 class RouterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Route
