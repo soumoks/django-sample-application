@@ -80,11 +80,12 @@ class Food_Name(models.Model):
     Lookup table for food name
     """
     food_name = models.CharField(max_length=30)
-    # passenger = models.ForeignKey(Passenger,on_delete=models.CASCADE)
+    # passenger = models.ForeignKey(Passenger,on_delete=models.CASCADE,related_name='passenger',default=None)
 
     def __str__(self):
         return self.food_name
-        
+
+
 class Passenger(models.Model):
 
     SEX_TYPE = [
@@ -106,8 +107,8 @@ class Passenger(models.Model):
         """return individual passenger information
         """
         return f"Name: {self.fname} {self.lname}, Seat: {self.seat_number}, Food Pref: {self.food_name}"
-
-
+        # return f"Name: {self.fname} {self.lname}, Seat: {self.seat_number}"
+        
 
 class Booking(models.Model):
     BOOKING_TYPE = [

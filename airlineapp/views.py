@@ -14,15 +14,17 @@ class TripViewSet(viewsets.ModelViewSet):
     """
     API endpoint for Trips
     """
+    
     queryset = Trip.objects.all()
-    serializer_class = TripSerializer
+    serializer_class = TripSerializer(queryset,many=True)
+        
 
 class FoodViewSet(viewsets.ModelViewSet):
     """
     API endpoint for FoodNames
     """
     queryset = Food_Name.objects.all()
-    serializer_class = FoodNameSerializer
+    serializer_class = FoodNameSerializer(queryset,many=True)
 
 class RouterViewSet(viewsets.ModelViewSet):
     """
