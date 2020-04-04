@@ -25,7 +25,7 @@ class TripSerializer(serializers.ModelSerializer):
 class FoodNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Food_Name
-        fields = ['food_name']
+        fields = '__all__'
 
 class PassengerSerializer(serializers.ModelSerializer):
     #use the same name as that of the column name in Food_Name
