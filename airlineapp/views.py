@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Trip,Food_Name,Route,Passenger,Plane
 from rest_framework import viewsets
-# from rest_framework.request import request
 from rest_framework import status
-from rest_framework.decorators import api_view
+# from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer
@@ -67,6 +67,7 @@ class TripViewSet(viewsets.ModelViewSet):
         print(f"Route ID: {route_id}")
         #If depart_date and route_id are provided in request
         if depart_date and route_id is not None:
+            #select * from trips whre route_id=182 and date = 2020-04-02
             queryset = queryset.filter(route_id=route_id).filter(date=depart_date)
             return queryset
         #If only depart_date is supplied in request
@@ -89,11 +90,32 @@ class FoodViewSet(viewsets.ModelViewSet):
     serializer_class = FoodNameSerializer
 
 
-class PassengerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for passengers
-    """
-    queryset = Passenger.objects.all()
-    serializer_class = PassengerSerializer
+# class PassengerViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint for passengers
+#     """
+#     queryset = Passenger.objects.all()
+#     serializer_class = PassengerSerializer
+# class PassengerList(APIView):
+#     """
+#     API Endpoint for get and add passengers
+#     Reference:
+#     https://www.django-rest-framework.org/tutorial/3-class-based-views/
+#     """
+
+#     #response on GET request
+#     def get(self,request,format=None):
+#         passengers = Passenger.objects.all()
+#         serializer = PassengerSerializer(passengers, many=True)
+#         return Response(serializer.data)
+#     #response on POST request
+#     def post(self, request, format=None):
+#         serializer = PassengerSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 

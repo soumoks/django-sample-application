@@ -20,7 +20,8 @@ class TripSerializer(serializers.ModelSerializer):
     plane_id = PlaneSerializer(read_only=True)
     class Meta:
         model = models.Trip
-        fields = ['date','arrival_time','departure_time','route_id','plane_id']
+        # fields = ['date','arrival_time','departure_time','route_id','plane_id']
+        fields = '__all__'
 
 class FoodNameSerializer(serializers.ModelSerializer):
     class Meta:
