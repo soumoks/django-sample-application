@@ -7,6 +7,8 @@ router.register(r'gettrips',views.TripViewSet,basename='gettrips')
 router.register(r'getfood',views.FoodViewSet)
 router.register(r'getroutes',views.RouterViewSet)
 router.register(r'getplanes',views.PlaneViewSet)
+router.register(r'getfeatures', views.FeatureViewSet)
+router.register(r'getfeaturenames', views.FeatureNameViewSet)
 # router.register(r'getpassengers/',views.PassengerList.as_view(),basename='getpassengers')
 
 urlpatterns = [

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Trip,Food_Name,Route,Passenger,Plane
+from .models import Trip,Food_Name,Route,Passenger,Plane, Feature, Feature_Name
 from rest_framework import viewsets
 from rest_framework import status
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer
+from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer, FeatureSerializer, FeatureNameSerializer
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -117,5 +117,11 @@ class FoodViewSet(viewsets.ModelViewSet):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class FeatureViewSet(viewsets.ModelViewSet):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
 
+class FeatureNameViewSet(viewsets.ModelViewSet):
+    queryset = Feature_Name.objects.all()
+    serializer_class = FeatureNameSerializer
 

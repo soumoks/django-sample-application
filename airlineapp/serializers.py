@@ -35,3 +35,15 @@ class PassengerSerializer(serializers.ModelSerializer):
         model = models.Passenger
         fields = ['fname','lname','age','sex','seat_number','food_name']
 
+class FeatureSerializer(serializers.ModelSerializer):  
+    class Meta:
+        model = models.Feature
+        fields = '__all__'
+
+class FeatureNameSerializer(serializers.ModelSerializer):
+    #use the same name as that of the column name in Trip
+    feature_id = FeatureSerializer(read_only=True)
+    plane_id = PlaneSerializer(read_only=True)
+    class Meta:
+        model = models.Feature_Name
+        fields = '__all__'
