@@ -4,13 +4,15 @@ from rest_framework import serializers
 class RouterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Route
-        fields = ['departure_city','arrival_city']
+        # fields = ['departure_city','arrival_city']
+        fields = '__all__'
 
 
 class PlaneSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Plane
-        fields = ['company','model_no','capacity','max_row','max_col']
+        # fields = ['company','model_no','capacity','max_row','max_col']
+        fields = '__all__'
 
 class TripSerializer(serializers.ModelSerializer):
     #use the same name as that of the column name in Trip
