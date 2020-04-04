@@ -49,7 +49,7 @@ class Route(models.Model):
     arrival_city = models.CharField(max_length=30,default=None)
 
     def __str__(self):
-        return f"Departure: {self.departure_city} | Arrival: {self.arrival_city}"
+        return f"ID: {self.id} | Departure: {self.departure_city} | Arrival: {self.arrival_city}"
 
 class Plane(models.Model):
     """
@@ -73,7 +73,7 @@ class Trip(models.Model):
     plane_id = models.ForeignKey(Plane,on_delete=models.CASCADE,default=None,related_name='planes')
 
     def __str__(self):
-        my_str = f"Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
+        my_str = f"ID: {self.id}, Date: {self.date}, Arrival Time: {self.arrival_time}, Departure Time: {self.departure_time}, Route ID: {self.route_id}, Plane ID: {self.plane_id}"
         return my_str
 
 

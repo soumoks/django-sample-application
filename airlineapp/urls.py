@@ -3,7 +3,7 @@ from . import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'gettrips',views.TripViewSet)
+router.register(r'gettrips',views.TripViewSet,basename='gettrips')
 router.register(r'getfood',views.FoodViewSet)
 router.register(r'getroutes',views.RouterViewSet)
 router.register(r'getpassengers',views.PassengerViewSet)

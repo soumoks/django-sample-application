@@ -32,7 +32,7 @@ SECRET_KEY = 'x*#)7d+3w=d73o)@oh-g1$j8r9rq^urm)#kf&r4)=$=&g3sw!*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-env.eba-wgpvstzd.us-east-1.elasticbeanstalk.com','127.0.0.1']
+ALLOWED_HOSTS = ['django-env.eba-wgpvstzd.us-east-1.elasticbeanstalk.com','127.0.0.1','192.168.0.38']
 
 #Add default timezone for Database
 TIME_ZONE = 'UTC'
