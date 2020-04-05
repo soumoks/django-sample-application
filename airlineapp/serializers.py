@@ -47,3 +47,11 @@ class FeatureNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Feature_Name
         fields = '__all__'
+
+
+class BookingSerializer(serializers.ModelSerializer):
+    passenger_id = PassengerSerializer(read_only=True)
+    trip_id = TripSerializer(read_only=True)
+    class Meta:
+        model = models.Booking
+        fields = '__all__'

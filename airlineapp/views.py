@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Trip,Food_Name,Route,Passenger,Plane, Feature, Feature_Name
+from .models import Trip,Food_Name,Route,Passenger,Plane, Feature, Feature_Name, Booking
 from rest_framework import viewsets
 from rest_framework import status
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer, FeatureSerializer, FeatureNameSerializer
+from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer, FeatureSerializer, FeatureNameSerializer, BookingSerializer
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -80,8 +80,41 @@ class TripViewSet(viewsets.ModelViewSet):
             return empty_list
 
     
-        
+class ValidSeatsViewSet(viewsets.ModelViewSet):
+    """
+    Returns all booking objects that match the trip id
+    TODO: Try to parse the passenger objects rather than returning all the booking objects
+    """
+    serializer_class = BookingSerializer
 
+    def get_queryset(self):
+        queryset = Booking.objects.all()
+        #We will get the trip id from the front end
+        trip_id = self.request.query_params.get('trip_id')
+        print(f"Trip ID: {trip_id}")
+        if trip_id is not None:
+            #select passenger from booking where trip id = x
+            queryset = queryset.filter(trip_id=trip_id)
+            return queryset
+        else:
+            empty_list = []
+            return empty_list
+     
+class SearchBookingIdViewSet(viewsets.ModelViewSet):
+    serializer_class = BookingSerializer
+    
+    def get_queryset(self):
+        #return all bookings which match the id passed from front end
+        queryset = Booking.objects.all()
+        booking_id = self.request.query_params.get('id')
+        if booking_id is not None:
+            queryset=queryset.filter(id=booking_id)
+            return queryset
+        else:
+            empty_list = []
+            return empty_list
+
+            
 class FoodViewSet(viewsets.ModelViewSet):
     """
     API endpoint for FoodNames
@@ -115,6 +148,9 @@ class FoodViewSet(viewsets.ModelViewSet):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class CancelBookingViewSet(viewsets.ModelViewSet):
+
 
 
 class FeatureViewSet(viewsets.ModelViewSet):

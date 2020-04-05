@@ -9,6 +9,8 @@ router.register(r'getroutes',views.RouterViewSet)
 router.register(r'getplanes',views.PlaneViewSet)
 router.register(r'getfeatures', views.FeatureViewSet)
 router.register(r'getfeaturenames', views.FeatureNameViewSet)
+router.register(r'getvalidseats', views.ValidSeatsViewSet, basename='getvalidseats')
+router.register(r'getbookings', views.SearchBookingIdViewSet, basename='getbookings')
 # router.register(r'getpassengers/',views.PassengerList.as_view(),basename='getpassengers')
 
 urlpatterns = [
