@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Trip,Food_Name, Route, Passenger, Plane, Feature, Feature_Name, Booking
+from .models import *
 from rest_framework import viewsets
 from rest_framework import status
-# from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from airlineapp.serializers import TripSerializer, FoodNameSerializer, RouterSerializer, PassengerSerializer, PlaneSerializer, FeatureSerializer, FeatureNameSerializer, BookingSerializer
+from airlineapp.serializers import *
 from rest_framework.parsers import JSONParser
+from airlineapp.services import get_seats
+from rest_framework.decorators import api_view
+
+
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -105,6 +108,9 @@ class SearchBookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
     """
+    API endpoint for getbookings
+    Accepts trip_id or booking_id as query params
+    
     Sample query:
     http://127.0.0.1:8000/airline/getbookings?booking_id=1
     http://127.0.0.1:8000/airline/getbookings?trip_id=91
@@ -164,6 +170,30 @@ class SearchBookingViewSet(viewsets.ModelViewSet):
         else:
             empty_list = []
             return empty_list
+
+
+@api_view(['GET'])
+def get_total_seats(request):
+    """
+    API endpoint for getting available seats on plane
+    Should return total seats available on plane as an array
+    Sample response = 
+    [A1,A2,A3,B1,B2,B3]
+
+    Should also return available seats that are not assigned to passengers in Booking
+    Sample response =
+    [A1,A2,A3]
+    accepts plane_id as query param
+    """
+    plane_id = request.query_params.get('plane_id')
+    if plane_id is not None:
+        queryset = Plane.objects.get(id=plane_id)
+        print("Available seats:")
+        print(get_seats(queryset.max_row,queryset.max_col))
+        return Response(get_seats(queryset.max_row,queryset.max_col))
+    else:
+        empty_list = []
+        return Response(empty_list)            
 
             
 class FoodViewSet(viewsets.ModelViewSet):
