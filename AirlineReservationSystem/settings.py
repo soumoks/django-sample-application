@@ -52,6 +52,12 @@ INSTALLED_APPS = [
     'storages',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ]
+}
+
 #S3 configuration
 AWS_LOCATION = 'static'
 AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-static-files'

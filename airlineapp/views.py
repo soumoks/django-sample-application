@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Trip,Food_Name,Route,Passenger,Plane, Feature, Feature_Name
+from .models import Trip,Food_Name, Route, Passenger, Plane, Feature, Feature_Name, Booking
 from rest_framework import viewsets
 from rest_framework import status
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from airlineapp.serializers import TripSerializer,FoodNameSerializer,RouterSerializer,PassengerSerializer,PlaneSerializer, FeatureSerializer, FeatureNameSerializer
+from airlineapp.serializers import TripSerializer, FoodNameSerializer, RouterSerializer, PassengerSerializer, PlaneSerializer, FeatureSerializer, FeatureNameSerializer, BookingSerializer
+from rest_framework.parsers import JSONParser
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -124,4 +125,63 @@ class FeatureViewSet(viewsets.ModelViewSet):
 class FeatureNameViewSet(viewsets.ModelViewSet):
     queryset = Feature_Name.objects.all()
     serializer_class = FeatureNameSerializer
+
+class BookingViewSet(APIView):
+    """
+    API endpoint for Make Booking
+    """
+    # queryset = Booking.objects.all()
+    # serializer_class = BookingSerializer
+
+    def get(self, request, format=None):
+        bookings = Booking.objects.all()
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data)
+
+    #parser_classes = [JSONParser]
+    """
+    Request:
+    headers: Content-type: application/json
+            {
+  "trip_id": {
+    "id": 91,
+    "route_id": {
+      "id": 115,
+      "departure_city": "Montreal - YUL",
+      "arrival_city": "Edmonton - YEG"
+    },
+    "plane_id": {
+      "id": 13,
+      "company": "Lee, King and Patterson",
+      "model_no": 76272,
+      "capacity": 281,
+      "max_row": 35,
+      "max_col": 7
+    },
+    "date": "2020-04-06",
+    "arrival_time": "07:58:45",
+    "departure_time": "14:46:50"
+  },
+  "passenger_id": {
+    "fname": "Sourabh",
+    "lname": "Mokhasi",
+    "age": 24,
+    "sex": "M",
+    "seat_number": "A1",
+    "food_name": {
+      "id": 1,
+      "food_name": "Veg"
+    }
+  },
+  "book_type": "One-Way"
+}
+    """
+
+    def post(self, request, format=None):
+        serializer = BookingSerializer(data=request.data)
+        print("request data: ", request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

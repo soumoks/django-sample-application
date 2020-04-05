@@ -1,5 +1,6 @@
 from . import models
 from rest_framework import serializers
+
 #https://www.django-rest-framework.org/api-guide/relations/
 class RouterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,7 +34,8 @@ class PassengerSerializer(serializers.ModelSerializer):
     food_name = FoodNameSerializer(read_only=True)
     class Meta:
         model = models.Passenger
-        fields = ['fname','lname','age','sex','seat_number','food_name']
+        # fields = ['fname','lname','age','sex','seat_number','food_name']
+        fields = '__all__'
 
 class FeatureSerializer(serializers.ModelSerializer):  
     class Meta:
@@ -47,3 +49,19 @@ class FeatureNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Feature_Name
         fields = '__all__'
+
+class BookingSerializer(serializers.ModelSerializer):
+    trip_id = TripSerializer()
+    passenger_id = PassengerSerializer()
+
+    class Meta:
+        model = models.Booking
+        fields = '__all__'
+
+    # def create(self, validated_data):
+    #     trip_data = validated_data.pop('trip_id')
+    #     passenger_data = validated_data.pop('passenger_id')
+
+    #     trips = models.Trip.objects.create(**validated_data)
+    #     passengers = models.Passenger.objects.create(**validated_data)
+    #     return (trips, passengers)
