@@ -108,7 +108,7 @@ class Passenger(models.Model):
     def __str__(self):
         """return individual passenger information
         """
-        return f"Name: {self.fname} {self.lname}, Seat: {self.seat_number}, Food Pref: {self.food_name}"
+        return f"ID: {self.id}, Name: {self.fname} {self.lname}, Seat: {self.seat_number}, Food Pref: {self.food_name}"
         # return f"Name: {self.fname} {self.lname}, Seat: {self.seat_number}"
         
 
@@ -122,7 +122,7 @@ class Booking(models.Model):
     passenger_id = models.ForeignKey(Passenger,on_delete=models.CASCADE,default=None)
 
     def __str__(self):
-        my_str = f"Passenger with ID: {self.passenger_id} has Trip ID: {self.trip_id} and Type is {self.book_type}"
+        my_str = f"ID: {self.id}, Passenger ID: {self.passenger_id} | Trip ID: {self.trip_id} | Type:{self.book_type}"
         return my_str
 
 
