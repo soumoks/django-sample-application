@@ -81,35 +81,85 @@ class TripViewSet(viewsets.ModelViewSet):
             return empty_list
 
     
-class ValidSeatsViewSet(viewsets.ModelViewSet):
-    """
-    Returns all booking objects that match the trip id
-    TODO: Try to parse the passenger objects rather than returning all the booking objects
-    """
+# class ValidSeatsViewSet(viewsets.ModelViewSet):
+#     """
+#     Returns all booking objects that match the trip id
+#     TODO: Try to parse the passenger objects rather than returning all the booking objects
+#     """
+#     serializer_class = BookingSerializer
+
+#     def get_queryset(self):
+#         queryset = Booking.objects.all()
+#         #We will get the trip id from the front end
+#         trip_id = self.request.query_params.get('trip_id')
+#         print(f"Trip ID: {trip_id}")
+#         if trip_id is not None:
+#             #select Bookings with same Trip ID (passed in queryString)
+#             queryset = queryset.filter(trip_id=trip_id)
+#             return queryset
+#         else:
+#             empty_list = []
+#             return empty_list
+     
+class SearchBookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
-    def get_queryset(self):
-        queryset = Booking.objects.all()
-        #We will get the trip id from the front end
-        trip_id = self.request.query_params.get('trip_id')
-        print(f"Trip ID: {trip_id}")
-        if trip_id is not None:
-            #select passenger from booking where trip id = x
-            queryset = queryset.filter(trip_id=trip_id)
-            return queryset
-        else:
-            empty_list = []
-            return empty_list
-     
-class SearchBookingIdViewSet(viewsets.ModelViewSet):
-    serializer_class = BookingSerializer
+    """
+    Sample query:
+    http://127.0.0.1:8000/airline/getbookings?booking_id=1
+    http://127.0.0.1:8000/airline/getbookings?trip_id=91
+
+    Sample response:
+    [
+    {
+        "id": 1,
+        "trip_id": {
+            "id": 91,
+            "route_id": {
+                "id": 115,
+                "departure_city": "Montreal - YUL",
+                "arrival_city": "Edmonton - YEG"
+            },
+            "plane_id": {
+                "id": 13,
+                "company": "Lee, King and Patterson",
+                "model_no": 76272,
+                "capacity": 281,
+                "max_row": 35,
+                "max_col": 7
+            },
+            "date": "2020-04-06",
+            "arrival_time": "07:58:45",
+            "departure_time": "14:46:50"
+        },
+        "passenger_id": {
+            "id": 1,
+            "food_name": {
+                "id": 1,
+                "food_name": "Veg"
+            },
+            "fname": "Sourabh",
+            "lname": "Mokhasi",
+            "age": 24,
+            "sex": "M",
+            "seat_number": "A1"
+        },
+        "book_type": "One-Way"
+    }
+    ]
+    """
     
     def get_queryset(self):
         #return all bookings which match the id passed from front end
         queryset = Booking.objects.all()
-        booking_id = self.request.query_params.get('id')
+        booking_id = self.request.query_params.get('booking_id')
+        trip_id = self.request.query_params.get('trip_id')
         if booking_id is not None:
             queryset=queryset.filter(id=booking_id)
+            return queryset
+        elif trip_id is not None:
+            #select Bookings with same Trip ID (passed in queryString)
+            queryset = queryset.filter(trip_id=trip_id)
             return queryset
         else:
             empty_list = []
