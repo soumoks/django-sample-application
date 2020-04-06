@@ -187,10 +187,14 @@ def get_total_seats(request):
     """
     plane_id = request.query_params.get('plane_id')
     if plane_id is not None:
-        queryset = Plane.objects.get(id=plane_id)
-        print("Available seats:")
-        print(get_seats(queryset.max_row,queryset.max_col))
-        return Response(get_seats(queryset.max_row,queryset.max_col))
+        try:
+            queryset = Plane.objects.get(id=plane_id)
+            # print(f"max_row: {queryset.max_row} | max_col: {queryset.max_col}")
+            # print("Available seats:")
+            # print(get_seats(queryset.max_row,queryset.max_col))
+            return Response(get_seats(queryset.max_row,queryset.max_col))
+        except:
+            return Response("Plane not found")
     else:
         empty_list = []
         return Response(empty_list)            
