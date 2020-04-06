@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from airlineapp.serializers import *
 from rest_framework.parsers import JSONParser
-from airlineapp.services import get_seats
+from airlineapp.services import get_seats,get_taken_seats
 from rest_framework.decorators import api_view
 
 
@@ -197,7 +197,46 @@ def get_total_seats(request):
             return Response("Plane not found")
     else:
         empty_list = []
-        return Response(empty_list)            
+        return Response(empty_list)
+
+@api_view(['GET'])
+def get_available_seats(request):
+    """
+    Accepts a trip_id as a parameter or plane_id as a parameter
+    check the total_seats in the plane_id by calling the helper get_seats function
+    check the booking table with seat_names for that trip_id
+    """
+    #query strings are string type
+    #database objects are whatever are stored inside the db
+    trip_id = int(request.query_params.get('trip_id'))
+    if trip_id is not None:
+        try:
+            trip_queryset = Trip.objects.get(id=trip_id)
+
+            #get total seats
+            total_seats = []
+            plane_id = trip_queryset.plane_id
+            total_seats = get_seats(plane_id.max_row,plane_id.max_col)
+            print(f"Total seats: {total_seats}")
+
+            #get taken seats
+            taken_seats = []
+            taken_seats = get_taken_seats(trip_id)
+            print(f"Taken seats: {taken_seats}")
+
+            #get available seats
+            #compute difference of total_seats and taken_seats
+            available_seats = []
+            available_seats = list(set(total_seats) - set(taken_seats))
+            available_seats.sort()
+            print(f"Available seats: {available_seats}")
+            return Response(available_seats)            
+        except:
+            return Response("Trip not found")
+    else:
+        empty_list = []
+        return Response(empty_list)
+
 
             
 class FoodViewSet(viewsets.ModelViewSet):

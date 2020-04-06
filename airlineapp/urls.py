@@ -17,6 +17,7 @@ urlpatterns = [
     path('',include(router.urls)),
     path('welcome',views.index,name='index'),
     path('getseats',views.get_total_seats),
+    path('getavailseats',views.get_available_seats),
     #Required for post request to create booking. Cannot be part of router.
     path('makebooking', views.BookingViewSet.as_view())
 ]
