@@ -69,8 +69,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Booking
-        # fields = '__all__'
-        fields = ['book_type','trip_id','passenger_id']
+        fields = '__all__'
+        # fields = ['book_type','trip_id','passenger_id']
 
         # def create(self, validated_data):
         #     print(f"Validated data: {validated_data}")
