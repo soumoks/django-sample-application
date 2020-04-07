@@ -85,7 +85,7 @@ class Food_Name(models.Model):
     # passenger = models.ForeignKey(Passenger,on_delete=models.CASCADE,related_name='passenger',default=None)
 
     def __str__(self):
-        return self.food_name
+        return f"ID: {self.id} Name: {self.food_name}"
 
 
 class Passenger(models.Model):
