@@ -12,6 +12,7 @@ from airlineapp.services import get_seats,get_taken_seats
 from rest_framework.decorators import api_view
 
 
+
 # Create your views here.
 def index(request):
     return HttpResponse("Welcome to the Airline Application!")
@@ -344,3 +345,50 @@ class BookingViewSet(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET','POST'])
+def create_food(request):
+    """
+    Sample curl request
+    curl -X POST http://127.0.0.1:8000/airline/createfood -H 'Content-Type: application/json' --data '{"food_name":"EggSalad"}'
+    """
+    if request.method == 'POST':
+        print("HelloWorld")
+        print("request data: ", request.data)
+        serializer = FoodNameSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def create_passenger(request):
+    """
+    Sample request:
+    curl -X POST http://127.0.0.1:8000/airline/createpassenger -H 'Content-Type: application/json' --data '{"fname":"Harvey","lname":"Specter","age":34,"sex":"M","seat_number":"A3","food_name":1}'
+    """
+    print(f"request data: {request.data}")
+    serializer = PassengerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','POST'])
+def create_booking(request):
+    """
+    Sample request:
+     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":{"fname":"Mike","lname":"Ross","age":20,"sex":"M","seat_number":"C2","food_name":1}}
+    """
+    if request.method == 'POST':
+        print(f"request data: {request.data}")
+        serializer = BookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        bookings = Booking.objects.all()
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data)

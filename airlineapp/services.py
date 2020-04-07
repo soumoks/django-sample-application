@@ -6,6 +6,7 @@ from functools import lru_cache
 from airlineapp.models import Booking
 ##Add caching funtionality on this function
 ##Might be required to send the object in json instead of a list
+##Reference: https://medium.com/better-programming/every-python-programmer-should-know-lru-cache-from-the-standard-library-8e6c20c6bc49
 @lru_cache(maxsize=None)
 def get_seats(max_row,max_col):
         """
