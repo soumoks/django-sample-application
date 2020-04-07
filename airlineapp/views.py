@@ -380,7 +380,18 @@ def create_booking(request):
     """
     Sample request:
      curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":{"fname":"Mike","lname":"Ross","age":20,"sex":"M","seat_number":"C2","food_name":1}}
+     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":12}
+     #Provide the passenger ID and it
+     #For the time-being create passenger first and call create_booking
     """
+    ## Create passenger object
+    # if request.method == "POST" and request.data is not None:
+    #     print(f"request data: {request.data}")
+    #     passenger_data = request.data['passenger_id']
+    #     p = create_passenger(passenger_data)
+        
+    #     # p = Passenger.objects.create(fname=passenger_data["fname"],lname=passenger_data["lname"],age=passenger_data["age"],sex=passenger_data["sex"],seat_number=passenger_data["seat_number"],food_name=passenger_data["food_name"])
+
     if request.method == 'POST':
         print(f"request data: {request.data}")
         serializer = BookingSerializer(data=request.data)

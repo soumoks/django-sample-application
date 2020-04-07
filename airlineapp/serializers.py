@@ -65,23 +65,23 @@ class FeatureNameSerializer(serializers.ModelSerializer):
 
 class BookingSerializer(serializers.ModelSerializer):
     # trip_id = TripSerializer()
-    passenger_id = PassengerSerializer(read_only=True)
+    # passenger_id = PassengerSerializer(read_only=True)
 
     class Meta:
         model = models.Booking
         # fields = '__all__'
         fields = ['book_type','trip_id','passenger_id']
 
-        def create(self, validated_data):
-            print(f"Validated data: {validated_data}")
-            book_type = validated.pop('book_type')
+        # def create(self, validated_data):
+        #     print(f"Validated data: {validated_data}")
+        #     book_type = validated.pop('book_type')
 
-            trip_data = validated_data.pop('trip_id')
-            print(f"Trip data: {trip_data}")
+        #     trip_data = validated_data.pop('trip_id')
+        #     print(f"Trip data: {trip_data}")
 
-            #this field should contain the entire details for passenger
-            passenger_data = validated_data.pop('passenger_id')
-            print(f"Pasenger data: {passenger_data}")
+        #     #this field should contain the entire details for passenger
+        #     passenger_data = validated_data.pop('passenger_id')
+        #     print(f"Pasenger data: {passenger_data}")
 
             #create passenger in booking as this is a new passenger object
             # p = models.Passenger.objects.create(**passenger_data)
