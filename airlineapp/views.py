@@ -106,7 +106,7 @@ class TripViewSet(viewsets.ModelViewSet):
 #             return empty_list
      
 class SearchBookingViewSet(viewsets.ModelViewSet):
-    serializer_class = BookingSerializer
+    serializer_class = BookingSearchSerializer
 
     """
     API endpoint for getbookings
