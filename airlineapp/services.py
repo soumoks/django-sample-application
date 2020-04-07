@@ -2,9 +2,11 @@
 This module contains compute logic that is used in views.
 This provides a logical separation of control logic with views
 """
+from functools import lru_cache
 from airlineapp.models import Booking
 ##Add caching funtionality on this function
 ##Might be required to send the object in json instead of a list
+@lru_cache(maxsize=None)
 def get_seats(max_row,max_col):
         """
         Sample request get_seats(5,3)
