@@ -67,17 +67,23 @@ class TripViewSet(viewsets.ModelViewSet):
         queryset = Trip.objects.all()
         depart_date = self.request.query_params.get('depart_date')
         route_id = self.request.query_params.get('route_id')
+        return_route_id = self.request.query_params.get('return_route_id')
+        return_date = self.request.query_params.get('return_date')
         print(f"depart_date:{depart_date}")
         print(f"Route ID: {route_id}")
+        #If return_date and return_route_id is supplied in request
+        if depart_date and route_id and return_date and return_route_id is not None:
+            #Check both trips for requested route_ids in DB 
+            queryset1 = queryset.filter(route_id=route_id).filter(date=depart_date)
+            queryset2 = queryset.filter(route_id=return_route_id).filter(date=return_date)
+            queryset = queryset1 | queryset2
+            return queryset
         #If depart_date and route_id are provided in request
         if depart_date and route_id is not None:
             #select * from trips whre route_id=182 and date = 2020-04-02
             queryset = queryset.filter(route_id=route_id).filter(date=depart_date)
             return queryset
-        #If only depart_date is supplied in request
-        elif depart_date:
-            queryset = queryset.filter(date=depart_date)
-            return queryset
+        
         #If no matches
         else:
             empty_list = []
