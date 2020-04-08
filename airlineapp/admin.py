@@ -31,14 +31,46 @@ class Trip_Admin(admin.ModelAdmin):
     ordering = ['id']
     actions = [notify_passengers_trip_delete]
 
+"""Adding the following custom admin classes for a better display on the admin console"""
+class Booking_Admin(admin.ModelAdmin):
+    list_display = ['id','book_type','trip_id','passenger_id']
+    ordering = ['id']
+
+class Booking_Type_Admin(admin.ModelAdmin):
+    list_display = ['id','booking_id','trip_id','passenger_id']
+    ordering = ['id']
+
+class Passenger_Admin(admin.ModelAdmin):
+    list_display = ['id','fname','lname','email','age','sex','seat_number','food_name']
+    ordering = ['id']
+
+class Route_Admin(admin.ModelAdmin):
+    list_display = ['id','departure_city','arrival_city']
+    ordering = ['id']
+
+class Plane_Admin(admin.ModelAdmin):
+    list_display = ['id','model_no','company','max_row','max_col']
+    ordering = ['id']
+
+class Food_Name_Admin(admin.ModelAdmin):
+    list_display = ['id','food_name']
+    ordering = ['id']
+
+class Feature_Admin(admin.ModelAdmin):
+    list_display = ['id','feature_desc']
+    ordering = ['id']
+
+class Feature_Name_Admin(admin.ModelAdmin):
+    list_display = ['id','plane_id','feature_id']
+    ordering = ['id']
 
 
 admin.site.register(Trip,Trip_Admin)
-admin.site.register(Route)
-admin.site.register(Plane)
-admin.site.register(Food_Name)
-admin.site.register(Feature)
-admin.site.register(Passenger)
-admin.site.register(Booking)
-admin.site.register(Feature_Name)
-admin.site.register(Booking_Type)
+admin.site.register(Route,Route_Admin)
+admin.site.register(Plane,Plane_Admin)
+admin.site.register(Food_Name,Food_Name_Admin)
+admin.site.register(Feature,Feature_Admin)
+admin.site.register(Passenger,Passenger_Admin)
+admin.site.register(Booking,Booking_Admin)
+admin.site.register(Feature_Name,Feature_Name_Admin)
+admin.site.register(Booking_Type,Booking_Type_Admin)
