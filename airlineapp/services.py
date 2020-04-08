@@ -64,3 +64,20 @@ def get_taken_seats(trip_id):
             taken_seats.append(obj.passenger_id.seat_number)
     return taken_seats
 
+
+def get_passengers(trip_id):
+    """
+    Returns the list of passenger IDs who have chosen a particular trip_id
+    """
+    passengers = []
+    booking_queryset = Booking.objects.all()
+    for obj in booking_queryset:
+        if obj.trip_id.id == trip_id:
+            passengers.append(obj.passenger_id.id)
+    return passengers
+
+def send_notification(email):
+    """
+    Helper function to send a notification email to passengers
+    """
+    pass
