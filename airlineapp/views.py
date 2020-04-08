@@ -277,13 +277,15 @@ def create_passenger(request):
 
 
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT', 'DELETE'])
 def create_booking(request):
     """
     API endpoint for "createbooking"
     Sample request:
-     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":{"fname":"Mike","lname":"Ross","age":20,"sex":"M","seat_number":"C2","food_name":1}}
-     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":12}
+     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":{"fname":"Mike","lname":"Ross","age":20,"sex":"M","seat_number":"C2","food_name":1}}'
+     curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":12}'
+     curl -X PUT http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"id":15,"book_type":"One-Way","trip_id":203,"passenger_id":170}'
+     curl -X DELETE http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"id":15,"book_type":"One-Way","trip_id":203,"passenger_id":170}'
      #Provide the passenger ID and it
      #For the time-being create passenger first and call create_booking
     """
@@ -294,9 +296,38 @@ def create_booking(request):
     #     p = create_passenger(passenger_data)
         
     #     # p = Passenger.objects.create(fname=passenger_data["fname"],lname=passenger_data["lname"],age=passenger_data["age"],sex=passenger_data["sex"],seat_number=passenger_data["seat_number"],food_name=passenger_data["food_name"])
-    print(f"request data: {request.data}")
-    serializer = BookingSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == "POST" and request.data is not None:
+        print(f"request data: {request.data}")
+        serializer = BookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == "PUT" and request.data is not None:
+        print(f"request data: {request.data}")
+        
+        try:
+            booking = Booking.objects.get(id=request.data.get('id'))
+        except Booking.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = BookingSerializer(booking, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == "DELETE" and request.data is not None:
+        print(f"request data: {request.data}")
+        try:
+            booking = Booking.objects.get(id=request.data.get('id'))
+        except Booking.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        booking.delete()
+        return Response(status=status.HTTP_200_OK)
+
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
