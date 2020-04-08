@@ -267,6 +267,8 @@ def create_passenger(request):
     API endpoint for "createpassenger"
     Sample request:
     curl -X POST http://127.0.0.1:8000/airline/createpassenger -H 'Content-Type: application/json' --data '{"fname":"Harvey","lname":"Specter","age":34,"sex":"M","seat_number":"A3","food_name":1}'
+    #Added email field to passenger model
+    curl -X POST http://127.0.0.1:8000/airline/createpassenger -H 'Content-Type: application/json' --data '{"fname":"Harvey","lname":"Specter","age":34,"sex":"M","seat_number":"A3","food_name":1,"email":"test@gmail.com"}'
     """
     print(f"request data: {request.data}")
     serializer = PassengerSerializer(data=request.data)
