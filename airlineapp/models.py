@@ -100,6 +100,7 @@ class Passenger(models.Model):
     """
     fname = models.CharField(max_length=30,default=None)
     lname = models.CharField(max_length=30,default=None)
+    email = models.EmailField(default=None)
     age = models.IntegerField(validators=[MinValueValidator(0, 'Please enter correct value'), MaxValueValidator(100, 'Please enter correct value')],default=None)
     sex = models.CharField(max_length=1, choices = SEX_TYPE,default='M')
     seat_number = models.CharField(max_length=4,default=None)
