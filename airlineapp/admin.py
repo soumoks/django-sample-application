@@ -3,12 +3,6 @@ from .models import Trip,Route,Plane,Food_Name,Feature,Passenger,Booking,Feature
 from airlineapp.services import get_passengers
 # Register your models here.
 
-"""
-Reference to edit the default admin actions
-https://docs.djangoproject.com/en/3.0/ref/contrib/admin/actions/
-The idea is to add a delete trip and update all passengers option
-"""
-
 def notify_passengers_trip_delete(modeladmin,request,queryset):
     """
     Notify passengers who have chosen a particular trip that the trip has been cancelled
