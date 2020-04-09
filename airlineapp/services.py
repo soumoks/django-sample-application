@@ -4,6 +4,12 @@ This provides a logical separation of control logic with views
 """
 from functools import lru_cache
 from airlineapp.models import Booking
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from .models import *
+import credentials
+import json
+
 ##Add caching funtionality on this function
 ##Might be required to send the object in json instead of a list
 ##Reference: https://medium.com/better-programming/every-python-programmer-should-know-lru-cache-from-the-standard-library-8e6c20c6bc49
@@ -73,11 +79,40 @@ def get_passengers(trip_id):
     booking_queryset = Booking.objects.all()
     for obj in booking_queryset:
         if obj.trip_id.id == trip_id:
-            passengers.append(obj.passenger_id.id)
+            passenger = Passenger.objects.get(id=obj.passenger_id.id)
+            passengers.append(passenger)
     return passengers
 
-def send_notification(email):
+def send_notification(passenger):
     """
     Helper function to send a notification email to passengers
     """
-    pass
+    send_grid_key = credentials.get_sendgrid_key()
+    
+    #If the email field has not been filled for the passenger, hardcoded value for email is used for testing purposes
+    if passenger.email is not None:
+        email = str(passenger.email)
+    else:
+        email = 'thanmayee.mudigonda@gmail.com'
+    
+    print(email)
+    fname = str(passenger.fname)
+    lname = str(passenger.lname)
+    content = "Dear "+ fname + " " + lname +": \n"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
+   
+    message = Mail(
+        from_email='email@em4292.sourabh.org',
+        to_emails=email,
+        subject='Notificaiton of cancelled flight!',
+        html_content=content)
+    
+    try:
+        sg = SendGridAPIClient(send_grid_key)
+        response = sg.send(message)
+
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+
+    except Exception as e:
+        print("Something went wrong!")

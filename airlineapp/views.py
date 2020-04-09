@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from airlineapp.serializers import *
 from rest_framework.parsers import JSONParser
-from airlineapp.services import get_seats,get_taken_seats
+from airlineapp.services import get_seats,get_taken_seats, send_notification
 from rest_framework.decorators import api_view
 
 # Create your views here.

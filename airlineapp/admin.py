@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Trip,Route,Plane,Food_Name,Feature,Passenger,Booking,Feature_Name,Booking_Type
-from airlineapp.services import get_passengers
+from airlineapp.services import get_passengers, send_notification
 # Register your models here.
 
 def notify_passengers_trip_delete(modeladmin,request,queryset):
@@ -18,6 +18,9 @@ def notify_passengers_trip_delete(modeladmin,request,queryset):
     print("List of passengers")
     print(passengers_list)
     #call services.send_notification with passenger email ids here
+    for plist in passengers_list:
+        for p in plist:
+            send_notification(p)
     print("Deleting selected trip/s. This action will delete any bookings with this trip ID as well")
     #reference: https://docs.djangoproject.com/en/3.0/topics/db/queries/
     queryset.delete()
