@@ -21,5 +21,6 @@ urlpatterns = [
     #Required for post requests. Cannot be part of router.
     path('createfood',views.create_food),
     path('createpassenger',views.create_passenger),
-    path('createbooking',views.create_booking)
+    path('createbooking',views.create_booking),
+    path('createbooking/<int:pk>', views.create_booking),
 ]
