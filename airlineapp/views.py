@@ -82,7 +82,9 @@ class TripViewSet(viewsets.ModelViewSet):
             #select * from trips whre route_id=182 and date = 2020-04-02
             queryset = queryset.filter(route_id=route_id).filter(date=depart_date)
             return queryset
-        
+        if route_id is not None:
+            queryset = queryset.filter(route_id=route_id)
+            return queryset
         #If no matches
         else:
             empty_list = []
