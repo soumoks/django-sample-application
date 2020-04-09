@@ -89,7 +89,7 @@ MIDDLEWARE = [
 #https://github.com/adamchainz/django-cors-headers
 #Allows all hosts.
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_METHODS = ['GET','POST']
+CORS_ALLOW_METHODS = ['GET','POST','PUT','DELETE']
 
 
 ROOT_URLCONF = 'AirlineReservationSystem.urls'
