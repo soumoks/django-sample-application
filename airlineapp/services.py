@@ -7,8 +7,12 @@ from airlineapp.models import Booking
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from .models import *
-import credentials
+try:
+    import credentials
+except:
+    print("Credentials file not found. Defaulting to OS environment variables")
 import json
+import os
 
 ##Add caching funtionality on this function
 ##Might be required to send the object in json instead of a list
@@ -87,8 +91,14 @@ def send_notification(passenger):
     """
     Helper function to send a notification email to passengers
     """
-    send_grid_key = credentials.get_sendgrid_key()
-    
+    send_grid_key = ""
+    try:
+        send_grid_key = credentials.get_sendgrid_key()
+    except:
+        #Obtain the api_key from EB environment variables
+        #reference:https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-softwaresettings.html
+        send_grid_key = os.environ['SENDGRID_API_KEY']
+
     #If the email field has not been filled for the passenger, hardcoded value for email is used for testing purposes
     if passenger.email is not None:
         email = str(passenger.email)
@@ -101,9 +111,10 @@ def send_notification(passenger):
     content = "Dear "+ fname + " " + lname +": \n"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
    
     message = Mail(
-        from_email='email@em4292.sourabh.org',
+        # from_email='email@em4292.sourabh.org',
+        from_email='airlinereservation@sourabh.org',
         to_emails=email,
-        subject='Notificaiton of cancelled flight!',
+        subject='Notification of cancelled flight!',
         html_content=content)
     
     try:

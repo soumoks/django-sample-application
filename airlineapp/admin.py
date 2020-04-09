@@ -18,6 +18,7 @@ def notify_passengers_trip_delete(modeladmin,request,queryset):
     print("List of passengers")
     print(passengers_list)
     #call services.send_notification with passenger email ids here
+    #passengers_list is a list of lists. Each list contains the passenger IDs for each trip
     for plist in passengers_list:
         for p in plist:
             send_notification(p)
