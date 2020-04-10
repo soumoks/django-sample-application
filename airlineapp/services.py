@@ -87,7 +87,36 @@ def get_passengers(trip_id):
             passengers.append(passenger)
     return passengers
 
-def send_notification(passenger):
+def _generate_message(message_type,passenger,message=None):
+    fname = str(passenger.fname)
+    lname = str(passenger.lname)
+
+    def update_message():
+        subject = "Notification of Flight update"
+        content = "Dear "+ fname + " " + lname +": \n"+"Your flight has been updated"
+        return (subject,content)
+    def booking_message():
+        subject = "Notification of Flight booking"
+        if message is not None:
+            content = "Dear "+ fname + " " + lname +": \n"+"Thank you for your booking. We look forward to having you on-board." + "\n" + "Your booking reference number is:" + message
+        else:
+            #Fail to a default message if message is not passed for whatever reason
+            content = "Dear "+ fname + " " + lname +": \n"+"Thank you for your booking. We look forward to having you on-board."
+        return (subject,content)
+    def cancel_message():
+        subject = "Notification of cancelled flight"
+        content = "Dear "+ fname + " " + lname +": \n"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
+        return (subject,content)
+    def self_cancel_message():
+        subject = "Notification of cancelled flight"
+        content = "Dear "+ fname + " " + lname +": \n"+" Your flight has been cancelled"
+        return (subject,content)
+
+    message_map = {"book":booking_message(),"update":update_message(),"cancel":cancel_message(),"self-cancel":self_cancel_message()}
+    return message_map.get(message_type,"Nothing")
+
+
+def send_notification(passenger,message_type,message=None):
     """
     Helper function to send a notification email to passengers
     """
@@ -100,30 +129,29 @@ def send_notification(passenger):
         send_grid_key = os.environ['SENDGRID_API_KEY']
 
     #If the email field has not been filled for the passenger, hardcoded value for email is used for testing purposes
-    if passenger.email is not None:
-        email = str(passenger.email)
+    print(f"Passenger data in send notification: {type(passenger)}")
+    #Fail if the passed passenger object is not of type airlineapp.models.Passenger
+    if isinstance(passenger,Passenger):
+        if passenger.email is not None:
+            email = str(passenger.email)
+            subject,content = _generate_message(message_type,passenger,message)
+        
+            message = Mail(
+                from_email='airlinereservation@sourabh.org',
+                to_emails=email,
+                subject=subject,
+                html_content=content)
+            
+            try:
+                sg = SendGridAPIClient(send_grid_key)
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+
+            except Exception as e:
+                print("Something went wrong!")
+        else:
+            print("Failed to send email as email is not present in Passenger object")
     else:
-        email = 'thanmayee.mudigonda@gmail.com'
-    
-    print(email)
-    fname = str(passenger.fname)
-    lname = str(passenger.lname)
-    content = "Dear "+ fname + " " + lname +": \n"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
-   
-    message = Mail(
-        # from_email='email@em4292.sourabh.org',
-        from_email='airlinereservation@sourabh.org',
-        to_emails=email,
-        subject='Notification of cancelled flight!',
-        html_content=content)
-    
-    try:
-        sg = SendGridAPIClient(send_grid_key)
-        response = sg.send(message)
-
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
-
-    except Exception as e:
-        print("Something went wrong!")
+        print("Failed to send message as instance type passed in not Passenger")

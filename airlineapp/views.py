@@ -302,9 +302,16 @@ def create_booking(request):
     #     # p = Passenger.objects.create(fname=passenger_data["fname"],lname=passenger_data["lname"],age=passenger_data["age"],sex=passenger_data["sex"],seat_number=passenger_data["seat_number"],food_name=passenger_data["food_name"])
     if request.method == "POST" and request.data is not None:
         print(f"request data: {request.data}")
+        #Getting the passenger object as it is required for send_notification
+        passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            #Accessing elements in a ordered dict
+            #https://stackoverflow.com/questions/10058140/accessing-items-in-an-collections-ordereddict-by-index
+            # passenger_data = list(serializer.validated_data.items())[2]
+            # print(f"Booking reference ID: {serializer.data['id']}")
+            send_notification(passenger_data,"book",str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

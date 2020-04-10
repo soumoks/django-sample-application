@@ -21,7 +21,7 @@ def notify_passengers_trip_delete(modeladmin,request,queryset):
     #passengers_list is a list of lists. Each list contains the passenger IDs for each trip
     for plist in passengers_list:
         for p in plist:
-            send_notification(p)
+            send_notification(p,"cancel")
     print("Deleting selected trip/s. This action will delete any bookings with this trip ID as well")
     #reference: https://docs.djangoproject.com/en/3.0/topics/db/queries/
     queryset.delete()
