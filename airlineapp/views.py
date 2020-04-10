@@ -302,8 +302,9 @@ def create_booking(request, pk=None):
         
     #     # p = Passenger.objects.create(fname=passenger_data["fname"],lname=passenger_data["lname"],age=passenger_data["age"],sex=passenger_data["sex"],seat_number=passenger_data["seat_number"],food_name=passenger_data["food_name"])
 
-    passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
+    
     if request.method == "POST" and request.data is not None:
+        passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
         print(f"request data: {request.data}")
         #Getting the passenger object as it is required for send_notification
         
@@ -319,6 +320,7 @@ def create_booking(request, pk=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == "PUT" and request.data is not None:
+        passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
         print(f"request data: {request.data}")
         
         try:
@@ -338,10 +340,11 @@ def create_booking(request, pk=None):
         try:
             booking = Booking.objects.get(id=pk)
             #update passenger_data for delete as we only receive Booking ID in request
-            passenger_data = booking.passenger_id
+            
         except Booking.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+        passenger_data = booking.passenger_id
         booking.delete()
         send_notification(passenger_data,"self-cancel")
         return Response(status=status.HTTP_200_OK)
