@@ -289,7 +289,8 @@ def create_booking(request, pk=None):
      curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":{"fname":"Mike","lname":"Ross","age":20,"sex":"M","seat_number":"C2","food_name":1}}'
      curl -X POST http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"book_type":"One-Way","trip_id":202,"passenger_id":12}'
      curl -X PUT http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"id":15,"book_type":"One-Way","trip_id":203,"passenger_id":170}'
-     curl -X DELETE http://127.0.0.1:8000/airline/createbooking -H 'Content-Type: application/json' --data '{"id":15,"book_type":"One-Way","trip_id":203,"passenger_id":170}'
+     curl -X DELETE http://127.0.0.1:8000/airline/createbooking/12
+
      #Provide the passenger ID and it
      #For the time-being create passenger first and call create_booking
     """
@@ -300,10 +301,12 @@ def create_booking(request, pk=None):
     #     p = create_passenger(passenger_data)
         
     #     # p = Passenger.objects.create(fname=passenger_data["fname"],lname=passenger_data["lname"],age=passenger_data["age"],sex=passenger_data["sex"],seat_number=passenger_data["seat_number"],food_name=passenger_data["food_name"])
+
+    passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
     if request.method == "POST" and request.data is not None:
         print(f"request data: {request.data}")
         #Getting the passenger object as it is required for send_notification
-        passenger_data = Passenger.objects.get(id=request.data['passenger_id'])
+        
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -326,6 +329,7 @@ def create_booking(request, pk=None):
         serializer = BookingSerializer(booking, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            send_notification(passenger_data,"update")
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -333,12 +337,14 @@ def create_booking(request, pk=None):
         print(f"request data: {request.data}")
         try:
             booking = Booking.objects.get(id=pk)
+            #update passenger_data for delete as we only receive Booking ID in request
+            passenger_data = booking.passenger_id
         except Booking.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         booking.delete()
+        send_notification(passenger_data,"self-cancel")
         return Response(status=status.HTTP_200_OK)
-
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
