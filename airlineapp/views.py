@@ -282,7 +282,7 @@ def create_passenger(request):
 
 
 @api_view(['POST', 'PUT', 'DELETE'])
-def create_booking(request):
+def create_booking(request, pk=None):
     """
     API endpoint for "createbooking"
     Sample request:
@@ -332,7 +332,7 @@ def create_booking(request):
     elif request.method == "DELETE" and request.data is not None:
         print(f"request data: {request.data}")
         try:
-            booking = Booking.objects.get(id=request.data.get('id'))
+            booking = Booking.objects.get(id=pk)
         except Booking.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
