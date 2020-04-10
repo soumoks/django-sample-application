@@ -93,23 +93,23 @@ def _generate_message(message_type,passenger,message=None):
 
     def update_message():
         subject = "Notification of Flight update"
-        content = "Dear "+ fname + " " + lname +": \n"+"Your flight has been updated"
+        content = "Dear "+ fname + " " + lname +", <br>"+"Your flight has been updated"
         return (subject,content)
     def booking_message():
         subject = "Notification of Flight booking"
         if message is not None:
-            content = "Dear "+ fname + " " + lname +", \n"+"Thank you for your booking. We look forward to having you on-board." + "\n" + "Your booking reference number is:" + message
+            content = "Dear "+ fname + " " + lname +", <br>"+"Thank you for your booking. We look forward to having you on-board." + "<br/>" + "Your booking reference number is:" + message
         else:
             #Fail to a default message if message is not passed for whatever reason
-            content = "Dear "+ fname + " " + lname +", \n"+"Thank you for your booking. We look forward to having you on-board."
+            content = "Dear "+ fname + " " + lname +", <br>"+"Thank you for your booking. We look forward to having you on-board."
         return (subject,content)
     def cancel_message():
         subject = "Notification of cancelled flight"
-        content = "Dear "+ fname + " " + lname +", \n"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
+        content = "Dear "+ fname + " " + lname +", <br>"+" Please note that the flight that you have recently booked has been cancelled. Please visit our website to book another flight.\n Thank you for your patience and understanding."
         return (subject,content)
     def self_cancel_message():
         subject = "Notification of cancelled flight"
-        content = "Dear "+ fname + " " + lname +", \n"+" Your flight has been cancelled"
+        content = "Dear "+ fname + " " + lname +", <br>"+" Your flight has been cancelled"
         return (subject,content)
 
     message_map = {"book":booking_message(),"update":update_message(),"cancel":cancel_message(),"self-cancel":self_cancel_message()}
