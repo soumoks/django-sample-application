@@ -282,7 +282,7 @@ def create_passenger(request):
 
 
 @api_view(['POST', 'PUT', 'DELETE'])
-def create_booking(request, pk):
+def create_booking(request, pk=None):
     """
     API endpoint for "createbooking"
     Sample request:
