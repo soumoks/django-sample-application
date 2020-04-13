@@ -216,9 +216,11 @@ def get_available_seats(request):
     """
     #query strings are string type
     #database objects are whatever are stored inside the db
-    trip_id = int(request.query_params.get('trip_id'))
+    trip_id = request.query_params.get('trip_id')
     if trip_id is not None:
         try:
+            #Convert to int for query
+            trip_id = int(trip_id)
             trip_queryset = Trip.objects.get(id=trip_id)
 
             #get total seats
