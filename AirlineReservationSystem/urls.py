@@ -19,7 +19,7 @@ from django.urls import include,path
 # from django.urls import re_path
 #Build
 urlpatterns = [
-    path('polls/',include('polls.urls')),
+    # path('polls/',include('polls.urls')),
     path('admin/', admin.site.urls),
     path('airline/',include('airlineapp.urls')),
     #hardcode serve static files to true

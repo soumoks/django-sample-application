@@ -41,7 +41,7 @@ TIME_ZONE = 'UTC'
 INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
-    'polls.apps.PollsConfig',
+    # 'polls.apps.PollsConfig',
     'airlineapp.apps.AirlineappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
